@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Auth Playground
 
-First, run the development server:
+An interactive authentication playground designed to explore **real-world auth flows and session logic** using modern full-stack patterns.
+
+This project focuses on **how authentication systems behave**, not just how they’re implemented.
+
+---
+
+## Overview
+
+Authentication is one of the most misunderstood parts of modern web applications.
+
+This playground exists to:
+- experiment with real-world auth scenarios
+- visualize permission boundaries
+- explore trade-offs between UX, security, and system complexity
+
+Rather than being a production-ready auth service, this project acts as a **controlled environment for reasoning about auth systems**.
+
+---
+
+## Key Features
+
+- Multiple authentication flows (email, OAuth, session-based)
+- Role-based and permission-based access control
+- Protected routes and gated UI states
+- Session lifecycle handling (login, refresh, logout)
+- UX feedback for auth states (loading, errors, denied access)
+
+---
+
+## Architecture & Concepts
+
+This project intentionally separates **auth concepts** from UI concerns.
+
+Key ideas explored:
+- **Authentication vs Authorization** separation
+- **Session-driven UI state**
+- **Role-based vs permission-based access**
+- **Server-side vs client-side checks**
+- **Auth as a state machine**
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js
+- **Auth:** NextAuth 
+- **Database:** Supabase / PostgreSQL
+- **ORM:** Prisma
+- **Styling:** Tailwind CSS
+- **State:** Server-driven auth state
+
+---
+
+## Screenshots
+
+Will add later if it's needed.
+
+---
+
+## Local Setup
 
 ```bash
+git clone https://github.com/your-username/auth-playground.git
+cd auth-playground
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
