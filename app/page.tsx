@@ -6,6 +6,7 @@ import { CustomEase } from "gsap/CustomEase";
 import { SplitText } from "gsap/SplitText";
 import { useEffect } from "react";
 import Login from "./components/login";
+import ResetPassword from "./components/reset-password";
 
 
 export default function Home() {
@@ -167,8 +168,17 @@ const splitTextElement = (
 
     const loginCard = document.querySelector(".login-card");
 const signupCard = document.querySelector(".signup-card");
+const resetCard = document.querySelector(".reset-card");
 
 gsap.set(signupCard, {
+  scale: 0.95,
+  y: 20,
+  rotate: -4,
+  zIndex: 1,
+  pointerEvents: "none",
+});
+
+gsap.set(resetCard, {
   scale: 0.95,
   y: 20,
   rotate: -4,
@@ -201,7 +211,7 @@ const showSignup = () => {
     }, "<");
 };
 
-const showLogin = () => {
+const showReset = () => {
   gsap.timeline({ defaults: { duration: 0.6, ease: "power3.inOut" } })
     .to(".signup-card", {
       scale: 0.95,
@@ -210,7 +220,7 @@ const showLogin = () => {
       zIndex: 1,
       pointerEvents: "none",
     })
-    .to(".login-card", {
+    .to(".reset-card", {
       scale: 1,
       y: 0,
       rotate: 0,
@@ -219,12 +229,41 @@ const showLogin = () => {
     }, "<");
 };
 
+const showLogin = () => {
+  gsap.timeline({ defaults: { duration: 0.6, ease: "power3.inOut" } })
+    .to(signupCard, {
+      scale: 0.95,
+      y: 20,
+      rotate: -4,
+      zIndex: 1,
+      pointerEvents: "none",
+    })
+    .to(resetCard, { // Also hide reset card
+      scale: 0.95,
+      y: 20,
+      rotate: -4,
+      zIndex: 1,
+      pointerEvents: "none",
+    }, "<")
+    .to(loginCard, {
+      scale: 1,
+      y: 0,
+      rotate: 0,
+      zIndex: 2,
+      pointerEvents: "auto",
+      opacity: 1,
+    }, "<");
+};
+
+
 window.addEventListener("show-signup", showSignup);
 window.addEventListener("show-login", showLogin);
+window.addEventListener("show-reset", showReset);
 
 return () => {
   window.removeEventListener("show-signup", showSignup);
   window.removeEventListener("show-login", showLogin);
+  window.removeEventListener("show-reset", showReset);  
 };
 
 
@@ -260,7 +299,7 @@ return () => {
     <div className="container">
       <nav>
         <a href="./"><p id="logo">authplay</p></a>
-        <p className="cursor-pointer">How it works</p>
+        <a href="https://github.com/Its-wabs/auth-playground" target="_blank"><p className="cursor-pointer">Github</p></a>
       </nav>
       <div className="hero-img">
         <Image
@@ -278,6 +317,9 @@ return () => {
     </div>
     <div className="auth-card signup-card">
       <SignUp />
+    </div>
+    <div className="auth-card reset-card">
+      <ResetPassword />
     </div>
   </div>
 
