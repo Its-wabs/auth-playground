@@ -34,14 +34,23 @@ export async function POST(req: Request) {
       { status: 401 }
     );
   }
-
-  // 4️⃣ Success (for now, just return user)
-  return NextResponse.json({
-    message: "Login successful",
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
+  // 4️⃣ Create session  
+  const session = await prisma.session.create({
+    data: {
+      userId: user.id,
+      expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
     },
   });
+  // 5️⃣ Set session cookie
+  const response = NextResponse.json({ message: "Login successful" });
+  response.cookies.set({  
+    name: "session",
+    value: session.id,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+  });
+  return response;
 }

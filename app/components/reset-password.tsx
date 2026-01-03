@@ -14,7 +14,7 @@ const ResetPassword = () => {
     }
   };
     return ( 
-        <div className="flex flex-col justify-between h-[70%] w-[75%] px-8 py-10">
+        <div className="flex flex-col justify-between  px-8 py-10">
             {/* Title */}
             <div className="overflow-hidden">
                 <h1 className="text-5xl md:text-6xl font-semibold uppercase tracking-tight leading-none">
@@ -22,7 +22,7 @@ const ResetPassword = () => {
                 </h1>
                 
             </div>
-            <div className="overflow-hidden">
+            <div className="overflow-hidden justify-center items-center ">
                       <p className="text-sm">We’ll send you a secure link to reset your password.
 </p>
             </div>

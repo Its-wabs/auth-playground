@@ -31,17 +31,33 @@ export async function POST(req: Request) {
         data: {
             email,
             passwordHash,
+            role: "USER",
         },
     });
 
-    return NextResponse.json({ 
-        message: "User created successfully",
-     user : {
-            id: newUser.id,
-            email: newUser.email,
+    // create session
+    const session = await prisma.session.create({
+        data : {
+            userId: newUser.id,
+            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
+
         },
-     },
-         { status: 201 });   
+    });
+
+    // set session cookie
+
+    const response = NextResponse.json({ message : "User created successfully"});
+    response.cookies.set({
+        name: "session",
+        value: session.id,
+        httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
+    
+return response;
           
 
 }

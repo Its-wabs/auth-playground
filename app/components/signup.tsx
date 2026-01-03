@@ -30,7 +30,7 @@ const SignUp = () => {
       return;
     }       
     // ✅ SUCCESS  
-    router.push(`/private/${data.user.id}`);
+    router.push("/private");
 };
 
   const goToLogin = () => {
@@ -42,7 +42,7 @@ const SignUp = () => {
   };
 
     return ( 
-        <div className="flex flex-col justify-between h-[70%] w-[75%] px-8 py-10">
+        <div className="flex flex-col justify-between  px-8 py-10">
             {/* Title */}
             <div className="overflow-hidden">
                 <h1 className="text-5xl md:text-6xl font-semibold uppercase tracking-tight leading-none">
@@ -58,7 +58,7 @@ const SignUp = () => {
             onChange={(e) => setEmail(e.target.value)}
                         type="email" 
                         placeholder="EMAIL" 
-                        className="w-full bg-transparent border-b border-black/20 py-4 text-lg uppercase tracking-wide placeholder:text-black/40 placeholder:font-medium outline-none focus:border-black transition-colors duration-300"
+                        className="w-full bg-transparent border-b border-black/20 py-4 text-lg  tracking-wide placeholder:text-black/40 placeholder:font-medium outline-none focus:border-black transition-colors duration-300"
                     />
                 </div>
                 
@@ -68,7 +68,7 @@ const SignUp = () => {
                         placeholder="PASSWORD" 
                          value={password}
             onChange={(e) => setPassword(e.target.value)}
-                        className="w-full bg-transparent border-b border-black/20 py-4 text-lg uppercase tracking-wide placeholder:text-black/40 placeholder:font-medium outline-none focus:border-black transition-colors duration-300"
+                        className="w-full bg-transparent border-b border-black/20 py-4 text-lg  tracking-wide placeholder:text-black/40 placeholder:font-medium outline-none focus:border-black transition-colors duration-300"
                     />
                 </div>
             </div>

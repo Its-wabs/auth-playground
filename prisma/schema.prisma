@@ -12,18 +12,29 @@ generator client {
 datasource db {
   provider = "postgresql"
   
-  
 }
-
 
 
 
 
 model Users {
-  id                    String    @id @default(cuid())
-  email                 String    @unique
-  name                  String?
-  passwordHash          String?   // For email/password auth
-  createdAt             DateTime  @default(now())
-  
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String?
+  role         Role     @default(USER)
+  createdAt    DateTime @default(now())
+  sessions     Session[]
 }
+
+enum Role {
+  USER
+  ADMIN
+}
+model Session {
+  id        String   @id @default(cuid())
+  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
