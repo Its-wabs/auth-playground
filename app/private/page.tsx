@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import LogoutButton from "../components/logout";
 import { getSession } from "@/lib/auth";
+import PrivateClient from "./private-client";
 
 export default async function PrivatePage() {
   const session = await getSession();
@@ -9,11 +9,5 @@ export default async function PrivatePage() {
     redirect("/?auth=login");
   }
 
-  return (
-    <div>
-      <h1>Private Page</h1>
-      <p>Welcome {session.user.email}</p>
-      <LogoutButton />
-    </div>
-  );
+  return <PrivateClient user={session.user} />;
 }
