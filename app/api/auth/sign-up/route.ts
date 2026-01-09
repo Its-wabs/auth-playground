@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt"; 
 import prisma from "@/lib/prisma";
+import { createSession, validatePassword } from "@/lib/auth";
 export async function POST(req: Request) {
   const { email, password } = await req.json();
 
@@ -13,7 +14,7 @@ export async function POST(req: Request) {
     }
     // check if user exists
 
-    const user =  await prisma.users.findUnique({
+    const user =  await prisma.localUsers.findUnique({
         where: { email },
     });
 
@@ -23,11 +24,34 @@ export async function POST(req: Request) {
             { status: 409 }
         );
     }
+    // email format validation
+    const  isValidEmail =(email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+if (!email || !isValidEmail(email)) {
+  return NextResponse.json(
+    { error: "Invalid email address" },
+    { status: 400 }
+  );
+}
+
+
+
+const { isValid } = validatePassword(password);
+
+if (!isValid) {
+  return NextResponse.json(
+    { error: "Password does not meet security requirements" },
+    { status: 400 }
+  );
+}
+
     // hash password
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
     // create user
-    const newUser = await prisma.users.create({
+    const newUser = await prisma.localUsers.create({
         data: {
             email,
             passwordHash,
@@ -35,17 +59,16 @@ export async function POST(req: Request) {
         },
     });
 
-    // create session
-    const session = await prisma.session.create({
-        data : {
-            userId: newUser.id,
-            expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
-
-        },
-    });
-
     // set session cookie
 
+    
+      await createSession(newUser.id);
+    
+      return NextResponse.json(
+        { message : "User created successfully"},
+      );
+/*
+// INITIAL CODE BEFORE REFACTORING
     const response = NextResponse.json({ message : "User created successfully"});
     response.cookies.set({
         name: "session",
@@ -59,5 +82,5 @@ export async function POST(req: Request) {
     
 return response;
           
-
+*/
 }

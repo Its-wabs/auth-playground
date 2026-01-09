@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 async function main() {
   const passwordHash = await bcrypt.hash("admin123", 10);
 
-  await prisma.users.upsert({
+  await prisma.localUsers.upsert({
     where: { email: "admin" },
     update: {
       role: "ADMIN",

@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 export async function DELETE(req: Request) {
   const { userId } = await req.json();
     // Check if user exists 
-    const user =  await prisma.users.findUnique({
+    const user =  await prisma.localUsers.findUnique({
         where: { id: userId },
     });
     if (!user) {
@@ -14,7 +14,7 @@ export async function DELETE(req: Request) {
         );
     }
     // Delete user      
-    await prisma.users.delete({
+    await prisma.localUsers.delete({
         where: { id: userId },
     }); 
     return NextResponse.json(
@@ -44,7 +44,7 @@ export async function PATCH(req: Request) {
   }
 
   // 3️⃣ Check user exists
-  const user = await prisma.users.findUnique({
+  const user = await prisma.localUsers.findUnique({
     where: { id: userId },
   });
 
@@ -56,7 +56,7 @@ export async function PATCH(req: Request) {
   }
 
   // 4️⃣ Update role
-  const updatedUser = await prisma.users.update({
+  const updatedUser = await prisma.localUsers.update({
     where: { id: userId },
     data: { role },
   });

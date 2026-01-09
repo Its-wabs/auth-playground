@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";    
 import { NextResponse } from "next/server";
+import { createSession } from "@/lib/auth";
 
 export async function POST(req: Request) {
   const { email, password } = await req.json();
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
   }
 
   // 2️⃣ Find user by email
-  const user = await prisma.users.findUnique({
+  const user = await prisma.localUsers.findUnique({
     where: { email },
   });
 
@@ -35,13 +36,24 @@ export async function POST(req: Request) {
     );
   }
   // 4️⃣ Create session  
+
+  await createSession(user.id);
+
+  return NextResponse.json(
+    { message: "Login successful"},
+  );
+  
+  /*
+  // INITIAL CODE BEFORE REFACTORING
   const session = await prisma.session.create({
     data: {
       userId: user.id,
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 7 days
     },
   });
-  // 5️⃣ Set session cookie
+
+
+  // 5️ Set session cookie
   const response = NextResponse.json({ message: "Login successful" });
   response.cookies.set({  
     name: "session",
@@ -53,4 +65,5 @@ export async function POST(req: Request) {
     maxAge: 60 * 60 * 24 * 7, // 7 days
   });
   return response;
+  */
 }

@@ -21,13 +21,8 @@ const items = [
   },
   {
     title: "Users",
-    url: "/admin/users",
+    url: "#",
     icon: Users,
-  },
-  {
-    title: "Roles & Permissions",
-    url: "/admin/roles",
-    icon: Shield,
   },
   
 ]

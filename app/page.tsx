@@ -7,9 +7,15 @@ import { SplitText } from "gsap/SplitText";
 import { useEffect } from "react";
 import Login from "./components/login";
 import ResetPassword from "./components/reset-password";
+import ResetPage from "./components/resetPage";
+import { useSearchParams } from "next/navigation";
 
 
 export default function Home() {
+
+  const searchParams = useSearchParams();
+  
+
   useEffect(() => {
     gsap.registerPlugin(CustomEase, SplitText);
     CustomEase.create("hop", ".8, 0, .3, 1");
@@ -164,11 +170,18 @@ const splitTextElement = (
       stagger: 0.05,
     }, 6.5 );
 
+
+  }, []);
+
+ useEffect(() => {
+  
+
     // login/signup card animation
 
     const loginCard = document.querySelector(".login-card");
 const signupCard = document.querySelector(".signup-card");
 const resetCard = document.querySelector(".reset-card");
+const resetNewCard = document.querySelector(".resetnew-card");
 
 gsap.set(signupCard, {
   scale: 0.95,
@@ -179,6 +192,14 @@ gsap.set(signupCard, {
 });
 
 gsap.set(resetCard, {
+  scale: 0.95,
+  y: 20,
+  rotate: -4,
+  zIndex: 1,
+  pointerEvents: "none",
+});
+
+gsap.set(resetNewCard, {
   scale: 0.95,
   y: 20,
   rotate: -4,
@@ -229,6 +250,26 @@ const showReset = () => {
     }, "<");
 };
 
+const showResetNew = () => {
+  gsap.timeline({ defaults: { duration: 0.6, ease: "power3.inOut" } })
+    .to(".login-card", {
+      scale: 0.95,
+      y: 20,
+      rotate: -4,
+      zIndex: 1,
+      pointerEvents: "none",
+    })
+    .to(".resetnew-card", {
+      scale: 1,
+      y: 0,
+      rotate: 0,
+      zIndex: 2,
+      pointerEvents: "auto",
+    }, "<");
+};
+
+
+
 const showLogin = () => {
   gsap.timeline({ defaults: { duration: 0.6, ease: "power3.inOut" } })
     .to(signupCard, {
@@ -255,19 +296,24 @@ const showLogin = () => {
     }, "<");
 };
 
+if (searchParams.get("auth") === "login") { showLogin(); // whatever logic you already have 
+  }
 
 window.addEventListener("show-signup", showSignup);
 window.addEventListener("show-login", showLogin);
 window.addEventListener("show-reset", showReset);
+window.addEventListener("show-resetnew",showResetNew);
 
 return () => {
   window.removeEventListener("show-signup", showSignup);
   window.removeEventListener("show-login", showLogin);
-  window.removeEventListener("show-reset", showReset);  
+  window.removeEventListener("show-reset", showReset); 
+  window.removeEventListener("show-resetnew", showResetNew); 
 };
 
 
-  }, []);
+}, [searchParams]);
+
 
   return (
     <main className="main-page">
@@ -320,6 +366,9 @@ return () => {
     </div>
     <div className="auth-card reset-card">
       <ResetPassword />
+    </div>
+     <div className="auth-card resetnew-card">
+      <ResetPage />
     </div>
   </div>
 

@@ -21,7 +21,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // Check session in DB
-  const session = await prisma.session.findUnique({
+  const session = await prisma.localSessions.findUnique({
     where: { id: sessionId },
     include: { user: true },
   });
@@ -32,7 +32,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Optional: protect admin routes
+  // protect admin routes
   if (url.pathname.startsWith("/admin") && session.user.role !== "ADMIN") {
     url.pathname = "/"; // or 403 page
     return NextResponse.redirect(url);
