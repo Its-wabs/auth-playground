@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
 export const SESSION_COOKIE = "session";
 
@@ -49,7 +50,9 @@ export async function requireSession() {
     include: { user: true },
   });
 
-  if (!session || session.expiresAt < new Date()) return null;
+  if (!session || session.expiresAt < new Date()) {
+    redirect("/?auth=login");
+  }
 
   return session;
 }
@@ -59,11 +62,12 @@ export async function requireAdmin() {
   const session = await requireSession();
 
   if (session.user.role !== "ADMIN") {
-    throw new Error("FORBIDDEN");
+    redirect("/"); 
   }
 
   return session;
 }
+
 
 export async function destroySession() {
   const sessionId = (await cookies()).get(SESSION_COOKIE)?.value;

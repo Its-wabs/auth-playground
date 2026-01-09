@@ -112,7 +112,7 @@ function StatCard({
   description 
 }: { 
   title: string; 
-  value: any; 
+  value: number | string; 
   description?: string;
 }) {
   return (
