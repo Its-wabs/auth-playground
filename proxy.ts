@@ -1,49 +1,26 @@
-// middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import prisma from "./lib/prisma";
 
-export async function proxy(req: NextRequest) {
-  const url = req.nextUrl.clone();
+export function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl;
 
-  // Skip public routes
-  if (url.pathname.startsWith("/api") || url.pathname === "/") {
+  // Only protect these routes
+  if (!pathname.startsWith("/private") && !pathname.startsWith("/admin")) {
     return NextResponse.next();
   }
 
-  // Get session cookie
   const sessionId = req.cookies.get("session")?.value;
 
   if (!sessionId) {
-    // Not logged in → redirect to login
+    const url = req.nextUrl.clone();
     url.pathname = "/";
     return NextResponse.redirect(url);
   }
 
-  // Check session in DB
-  const session = await prisma.localSessions.findUnique({
-    where: { id: sessionId },
-    include: { user: true },
-  });
-
-  if (!session || session.expiresAt < new Date()) {
-    // Invalid or expired session
-    url.pathname = "/";
-    return NextResponse.redirect(url);
-  }
-
-  // protect admin routes
-  if (url.pathname.startsWith("/admin") && session.user.role !== "ADMIN") {
-    url.pathname = "/"; // or 403 page
-    return NextResponse.redirect(url);
-  }
-
-  // ✅ All good, allow the request
+  
   return NextResponse.next();
 }
 
-// Only run middleware on these paths
 export const config = {
   matcher: ["/private/:path*", "/admin/:path*"],
-  runtime: "nodejs",
 };

@@ -2,6 +2,8 @@ import prisma from "@/lib/prisma"
 import UserList from "./_components/userlist"
 
 export default async function AdminPage() {
+
+  
   const users = await prisma.localUsers.findMany({
     orderBy: {
       createdAt: 'desc'

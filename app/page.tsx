@@ -20,7 +20,7 @@ export default function Home() {
     gsap.registerPlugin(CustomEase, SplitText);
     CustomEase.create("hop", ".8, 0, .3, 1");
 const splitTextElement = (
-  selector,
+  selector: string,
   type = "words,chars",
   addFirstChar = false
 ) => {
@@ -77,7 +77,7 @@ const splitTextElement = (
 
 
        const tl = gsap.timeline({ defaults: { ease: "hop" } });
-       const tags = gsap.utils.toArray(".tag");
+       const tags = gsap.utils.toArray<HTMLElement>(".tag");
 
        tags.forEach((tag, index) => {
         tl.to(
