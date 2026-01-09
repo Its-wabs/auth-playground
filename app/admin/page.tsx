@@ -1,7 +1,10 @@
 import prisma from "@/lib/prisma"
 import UserList from "./_components/userlist"
+import { requireAdmin } from "@/lib/auth";
 
 export default async function AdminPage() {
+
+   await requireAdmin(); 
 
   
   const users = await prisma.localUsers.findMany({

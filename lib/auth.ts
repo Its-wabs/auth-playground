@@ -6,6 +6,17 @@ export const SESSION_COOKIE = "session";
 
 const SESSION_DURATION = 1000 * 60 * 60 * 24 * 7; // 7 days
 
+
+type SessionWithUser = {
+  id: string;
+  expiresAt: Date;
+  user: {
+    id: string;
+    email: string;
+    role: "ADMIN" | "USER";
+  };
+};
+
 export async function createSession(userId: string) {
   const session = await prisma.localSessions.create({
     data: {
@@ -41,9 +52,9 @@ export async function getSession() {
   return session;
 }
 
-export async function requireSession() {
+export async function requireSession(): Promise<SessionWithUser> {
   const sessionId = (await cookies()).get(SESSION_COOKIE)?.value;
-  if (!sessionId) return null;
+  if (!sessionId) redirect("/?auth=login");
 
   const session = await prisma.localSessions.findUnique({
     where: { id: sessionId },
@@ -56,7 +67,6 @@ export async function requireSession() {
 
   return session;
 }
-
 
 export async function requireAdmin() {
   const session = await requireSession();
