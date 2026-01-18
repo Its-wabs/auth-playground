@@ -18,20 +18,21 @@ const ResetPassword = () => {
       router.push("/login");
     }
   };
+  /*
   const handleSubmit = async () => {
 
     if (!email) return;
 
   setLoading(true);
 
-  const res = await fetch("/api/reset/send", {
+  const res = await fetch("/api/reset", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ email }),
 });
 
 if (!res.ok) {
-  throw new Error("Failed to send reset email");
+  throw new Error("Failed to send reset link");
 }
 
 setSent(true);
@@ -39,8 +40,9 @@ setSent(true);
 
 
   }
+*/
   // dev only 
-/* 
+
  const handleSubmit = async () => {
   if (!email) return;
 
@@ -71,7 +73,7 @@ setSent(true);
   setSent(true);
 };
 
-*/
+
 
     return ( 
         <div className="flex flex-col justify-between max-w-md mx-auto px-8 py-10">

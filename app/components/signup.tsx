@@ -12,6 +12,7 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
+
   // Basic email format validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isEmailValid = emailRegex.test(email);
@@ -27,6 +28,7 @@ const SignUp = () => {
 
   const strengthScore = Object.values(passwordRules).filter(Boolean).length;
   const strengthPercent = (strengthScore / 5) * 100;
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,8 +104,9 @@ const SignUp = () => {
             className="w-full bg-transparent border-b border-black/20 py-4 text-lg tracking-wide placeholder:text-black/40 placeholder:font-medium outline-none focus:border-black transition-colors duration-300"
           />
         </div>
+       
 
-        {/* Password strength bar - using min-height instead of fixed height */}
+        {/* Password strength bar  */}
         <div >
           {isPasswordFocused && (
             <div className="h-1 bg-black/10 rounded">
@@ -119,6 +122,20 @@ const SignUp = () => {
             </div>
           )}
         </div>
+
+          {/* Password requirements */} 
+          {!isPasswordFocused && password && strengthScore < 5 && (
+            <div className="text-xs text-red-600 mt-2 transition-all duration-300">
+              Password needs: {[
+                !passwordRules.length && "8+ chars",
+                !passwordRules.uppercase && "uppercase",
+                !passwordRules.lowercase && "lowercase",
+                !passwordRules.number && "number",
+                !passwordRules.special && "special char"
+              ].filter(Boolean).join(', ')}
+            </div>
+          )}
+       
 
         {/* Error message */}
         {error && (

@@ -1,3 +1,4 @@
+import { validatePassword } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
@@ -34,8 +35,19 @@ export async function POST(req: Request) {
     );
   }
 
-  // 4️⃣ Hash new password
-  const passwordHash = await bcrypt.hash(password, 10);
+ 
+ const { isValid } = validatePassword(password);
+ 
+ if (!isValid) {
+   return NextResponse.json(
+     { error: "Password does not meet security requirements" },
+     { status: 400 }
+   );
+ }
+ 
+     // hash password
+     const saltRounds = 10;
+     const passwordHash = await bcrypt.hash(password, saltRounds);
 
   // 5️⃣ Update user password
   await prisma.localUsers.update({

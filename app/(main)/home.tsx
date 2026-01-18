@@ -53,6 +53,11 @@ const splitTextElement = (
     splitTextElement(".tag p","words");
     splitTextElement(".card h1","words,chars", true); 
 
+    gsap.set([".intro-title h1", ".outro-title h1", ".card h1", ".overlay-tags p"], { 
+  opacity: 1, 
+  visibility: "visible" 
+});
+
     const isMobile = window.innerWidth <= 1000;
 
     gsap.set(
@@ -69,9 +74,9 @@ const splitTextElement = (
 
        });
        gsap.set(".split-overlay .outro-title .char", 
-      { x: isMobile ? "-3rem" : "-8rem",
-        fontSize: isMobile ? "6rem" : "14rem",
-        fontWeight: "500",  
+      { x: isMobile ? "2rem" : "-8rem", 
+  fontSize: isMobile ? "3.5rem" : "14rem", 
+  fontWeight: "500",  
 
        });
 

@@ -10,6 +10,8 @@
 
 body {
   font-family: "Montserrat", sans-serif;
+  overflow-x: hidden; 
+  width: 100%;
 
 }
 
@@ -30,7 +32,7 @@ p {
 .split-overlay,
 .overlay-tags {
   position: fixed;
-  width: 100vw;
+  width: 100%;
   height: 100svh;
 }
 
@@ -55,6 +57,7 @@ p {
   transform: translate(-50%, -50%);
   text-align: center;
   width: 100%;
+  white-space: nowrap;
 }
 
 .outro-title {
@@ -62,6 +65,7 @@ p {
   top: 50%;
   left: calc(50% + 10rem);
   transform: translate(-50%, -50%);
+  white-space: nowrap;
 }
 
 .tag {
@@ -89,13 +93,16 @@ p {
 .container {
   position: relative;
   width: 100%;
+  max-width: 100vw; /* Hard stop */
   height: 100vh;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   clip-path: polygon(0 48%, 0 48%, 0 52%, 0 52%);
+  overflow: hidden; 
   z-index: 2;
-  overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .container .hero-img {
@@ -120,7 +127,7 @@ p {
 .container nav,
 .container footer {
   position: relative;
-  width: 100vw;
+  width: 100%;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
@@ -189,6 +196,26 @@ p {
   transform-origin: top left;
 }
 
+
+.intro-title h1, 
+.outro-title h1,
+.card h1 {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.overlay-tags p {
+  opacity: 0;
+  visibility: hidden;
+
+}
+
+.intro-title .char span,
+.outro-title .char span,
+.card .char span {
+  display: inline-block;
+  transform: translateY(100%); /* Start them hidden below */
+}
 .auth-deck {
   position: relative;
   width: 100%;
@@ -206,6 +233,8 @@ p {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
+
+
 
 /* default stacked state */
 .signup-card,
@@ -276,7 +305,8 @@ p {
   }
 
   .outro-title {
-    left: calc(50% + 4rem);
+    left: 50%; 
+    margin-left: 4rem;
   }
 
   .intro-title .char,
