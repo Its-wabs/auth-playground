@@ -66,19 +66,18 @@ const splitTextElement = (
       ], { y : "0%"}
     );
 
-    gsap.set(".split-overlay .intro-title .first-char", 
-      { x: isMobile ? "7.5rem" : "18rem",
-        y : isMobile ? "-1rem" : "-2.75rem",
-        fontWeight: "900",  
-        scale: 0.75,
+    gsap.set(".split-overlay .intro-title .first-char", { 
+  x: isMobile ? "4.5rem" : "18rem", // Reduced mobile X
+  y : isMobile ? "-0.4rem" : "-2.75rem", // Adjusted mobile Y for smaller font
+  fontWeight: "900",  
+  scale: 0.75,
+});
 
-       });
-       gsap.set(".split-overlay .outro-title .char", 
-      { x: isMobile ? "2rem" : "-8rem", 
-  fontSize: isMobile ? "3.5rem" : "14rem", 
+gsap.set(".split-overlay .outro-title .char", { 
+  x: isMobile ? "-1.5rem" : "-8rem", // Reduced mobile X
+  fontSize: isMobile ? "5rem" : "14rem", // Scale the V.1 font for mobile
   fontWeight: "500",  
-
-       });
+});
 
 
        const tl = gsap.timeline({ defaults: { ease: "hop" } });
@@ -110,22 +109,31 @@ const splitTextElement = (
       stagger: 0.075,
     },2.5 )
     .to(".preloader .intro-title .first-char", {
-      x: isMobile ? "9rem" : "21.25rem",
-      duration: 1,
+  x: isMobile ? "5.5rem" : "21.25rem", // Proportional movement
+  duration: 1,
+}, 3.5)
+.to(".preloader .outro-title .char", {
+  x: isMobile ? "-1.5rem" : "-8rem", // Keep it stable
+  duration: 1,
+}, 3.5)
 
-    },3.5)
-    .to(".preloader .outro-title .char", {
-      x: isMobile ? "-3rem" : "-8rem",
-      duration: 1,
-
-    },3.5)
-    .to(".preloader .intro-title .first-char", {
-      x: isMobile ? "7.5rem" : "18rem",
-      y : isMobile ? "-1rem" : "-2.75rem",
-      scale: 0.75,
-      fontWeight: "900",  
-      duration: 0.75,  
-    },4.5)
+// Around line 133 (the 4.5 second mark)
+.to(".preloader .intro-title .first-char", {
+  x: isMobile ? "4.5rem" : "18rem", 
+  y : isMobile ? "-0.4rem" : "-2.75rem",
+  scale: 0.75,
+  fontWeight: "900",  
+  duration: 0.75,  
+}, 4.5)
+.to(".preloader .outro-title .char", {
+  x: isMobile ? "-1.5rem" : "-8rem",  
+  fontSize: isMobile ? "5rem" : "14rem",
+  fontWeight: "500",  
+  duration: 0.75,
+  onComplete: () => {
+    // ... your existing clipPath logic
+  },
+}, 4.5)
     .to(".preloader .outro-title .char", {
       x: isMobile ? "-3rem" : "-8rem",  
       fontSize: isMobile ? "6rem" : "14rem",
